@@ -12,6 +12,6 @@ public class ForceTextUpdator : MonoBehaviour
 
     private void UpdateText(StoppedEventArgs eventArgs)
     {
-        forceText.text = string.Format("Force: {0:0.0}", eventArgs.Force);
+        forceText.text = string.Format("Force: {0:0.0}", eventArgs.ForceMagnitude);
     }
 }

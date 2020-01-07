@@ -10,14 +10,14 @@ public class ForceBarUpdator : MonoBehaviour
     private static ForceBarUpdator instance = null;
     public static ForceBarUpdator Instance { get { return instance; } }
 
-    // changable private variables in properties
-    [SerializeField] private float maxForce = 10000;
+    // changable private variables in inspector
+    [SerializeField] private float maxForceMagnitude = 10000;
     [SerializeField] private float secondToFilled = 0;
     [SerializeField] private float maxBarWidth = 500;
     [SerializeField] private RectTransform fillBar = null;
 
     // private variables
-    private float force;
+    private float forceMagnitude;
     private Vector3 currentScale = Vector3.zero;
     private UpdatorState state = UpdatorState.Up;
 
@@ -54,10 +54,12 @@ public class ForceBarUpdator : MonoBehaviour
 
     public void Stop()
     {
-        if (state == UpdatorState.Stop) return;
+        if (state == UpdatorState.Stop)
+            return;
         state = UpdatorState.Stop;
-        force = ForceEvaluator.Evaluate(maxForce, currentScale.x);
-        OnStopped.Invoke(new StoppedEventArgs(state, currentScale.x, force));
+        //force = ForceEvaluator.Evaluate(maxForce, currentScale.x, EvaluateMethod.Parabola);
+        forceMagnitude = ForceEvaluator.Evaluate(maxForceMagnitude, currentScale.x, EvaluateMethod.Linear);
+        OnStopped.Invoke(new StoppedEventArgs(state, currentScale.x, forceMagnitude));
     }
 
     public void Restart()
@@ -68,12 +70,12 @@ public class ForceBarUpdator : MonoBehaviour
 
 public class StoppedEventArgs
 {
-    public StoppedEventArgs(UpdatorState state, float lerpValue, float force)
+    public StoppedEventArgs(UpdatorState state, float lerpValue, float forceMagnitude)
     {
         LerpValue = lerpValue;
-        Force = force;
+        ForceMagnitude = forceMagnitude;
     }
     
     public float LerpValue { get; }
-    public float Force { get; }
+    public float ForceMagnitude { get; }
 }

@@ -5,11 +5,11 @@ public class InputRegister : MonoBehaviour
     [SerializeField] private KeyCode PunchButton = new KeyCode();
     [SerializeField] private KeyCode RestartButton = new KeyCode();
     [SerializeField] private Puncher puncher = null;
-    private float force = 0;
+    private float forceMagnitude = 0;
 
     private void Start()
     {
-        ForceBarUpdator.OnStopped += RegisterForce;
+        ForceBarUpdator.OnStopped += RegisterForceMagnitude;
     }
 
     void Update()
@@ -17,7 +17,9 @@ public class InputRegister : MonoBehaviour
         if (Input.GetKey(PunchButton))
         {
             ForceBarUpdator.Instance.Stop();
-            puncher.Punch(force);
+            //puncher.Punch(force);
+            ForceApplier.Instance.GetForceFromInputRegister(forceMagnitude);
+            Reset();
         }
         else if (Input.GetKey(RestartButton))
         {
@@ -26,8 +28,13 @@ public class InputRegister : MonoBehaviour
         }
     }
 
-    private void RegisterForce(StoppedEventArgs eventArgs)
+    private void RegisterForceMagnitude(StoppedEventArgs eventArgs)
     {
-        force = eventArgs.Force;
+        forceMagnitude = eventArgs.ForceMagnitude;
+    }
+
+    private void Reset()
+    {
+        forceMagnitude = 0;
     }
 }
