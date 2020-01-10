@@ -6,7 +6,7 @@
 		_ColorTop("Top Color", Color) = (1,1,1,1)
 		_ColorMid("Middle Color", Color) = (1,1,1,1)
 		_ColorBot("Bottom Color", Color) = (1,1,1,1)
-		_ValueMid("Middle Value", Range(0.001, 0.999)) = 1
+		_ValueMid("Middle Value", Range(0.001, 0.999)) = .5
 
 		// Required properties (6) for UI
 		// Details can be found in UI-Default.shader
